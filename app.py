@@ -23,8 +23,8 @@ def predict():
     prediction = model.predict([np.array(json)])
 
     output = prediction[0]
-	dic = {}
-	dic["key"] = output
+    dic = {}
+    dic["key"] = output
     return jsonify(dic)
 
  
