@@ -18,16 +18,16 @@ def home():
 @app.route('/home/predict', methods = ['POST']) 
 def predict():
 	
-    data = request.get_json(force=True)
-	  json = list(data.values())
- 	  pitch = 180 *math.atan2(json[0], math.sqrt(json[1]*json[1]+ json[2]*json[2]))/math.pi
-	  roll = 180 * math.atan2(json[1], math.sqrt(json[0]*json[0] + json[2]*json[2]))/math.pi
-	  json.append(pitch)
-	  json.append(roll)
-    prediction = model.predict([np.array(json)])
+    		data = request.get_json(force=True)
+		json = list(data.values())
+		pitch = 180 *math.atan2(json[0], math.sqrt(json[1]*json[1]+ json[2]*json[2]))/math.pi
+		roll = 180 * math.atan2(json[1], math.sqrt(json[0]*json[0] + json[2]*json[2]))/math.pi
+		json.append(pitch)
+		json.append(roll)
+    		prediction = model.predict([np.array(json)])
 
-    output = prediction[0]
-    return jsonify(output)
+		output = prediction[0]
+		return jsonify(output)
 
  
 if __name__ == '__main__': 
