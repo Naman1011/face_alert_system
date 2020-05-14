@@ -8,13 +8,14 @@ Original file is located at
 """
 import numpy as np
 import pickle
+import math
 # Using flask to make an api 
 # import necessary libraries and functions 
 from flask import Flask, jsonify, request 
 
 # creating a Flask app 
 app = Flask(__name__) 
-model = pickle.load(open('final_model_v3.pkl', 'rb'))
+model = pickle.load(open('test_modelv5.2.pkl', 'rb'))
 # on the terminal type: curl http://127.0.0.1:5000/ 
 # returns hello world when we use GET. 
 # returns the data that we send when we use POST. 
@@ -28,9 +29,15 @@ def home():
 # on the terminal type: curl http://127.0.0.1:5000 / home / 10 
 # this returns 100 (square of 10) 
 @app.route('/home/predict', methods = ['POST']) 
-def predict(): 
-    data = request.get_json(force=True)
-    prediction = model.predict([np.array(list(data.values()))])
+def predict():
+	
+        data = request.get_json(force=True)
+	json = list(data.values())
+	pitch = 180 *math.atan2(json[0], math.sqrt(json[1]*json[1]+ json[2]*json[2]))/math.pi
+	roll = 180 * math.atan2(json[1], math.sqrt(json[0]*json[0] + json[2]*json[2]))/math.pi
+	json.append(pitch)
+	json.append(roll)
+        prediction = model.predict([np.array(json)])
 
     output = prediction[0]
     return jsonify(output)
