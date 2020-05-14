@@ -23,7 +23,9 @@ def predict():
     prediction = model.predict([np.array(json)])
 
     output = prediction[0]
-    return jsonify(output)
+	dic = {}
+	dic["key"] = output
+    return jsonify(dic)
 
  
 if __name__ == '__main__': 
